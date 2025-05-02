@@ -82,5 +82,11 @@ return [
         App\Providers\RouteServiceProvider::class,
 
     ],
-
+'aliases' => [
+    
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTAuthFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+    
+       
+    ], 
 ];

@@ -11,10 +11,12 @@ use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\ordonnanceController;
 use App\Http\Controllers\ContientController;  
 use App\Http\Controllers\RoleController; 
-use Illuminate\Support\Facades\Route;   
-use App\Http\Controllers\patientController;  
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\patientController;   
+use App\Http\Controllers\AuthController; 
 
 
+ 
 // Utilisateur
 Route::get('utilisateur', [UtilisateurController::class, 'index']);
 Route::post('utilisateur/create', [UtilisateurController::class, 'store']);
@@ -83,4 +85,17 @@ Route::delete('role/{role}', [RoleController::class, 'delete']);
 Route::get('patient', [patientController::class, 'index']);
 Route::post('patient/create', [patientController::class, 'store']);
 Route::put('patient/edit/{patient}', [patientController::class, 'update']);
-Route::delete('patient/{patient}', [patientController::class, 'delete']);
+Route::delete('patient/{patient}', [patientController::class, 'delete']); 
+
+
+
+Route::group(['prefix' => 'auth'], function() {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('logout', [AuthController::class, 'logout']);
+});
+
+Route::get('/test-api', function () {
+    return response()->json(['message' => 'API OK']);
+});
+

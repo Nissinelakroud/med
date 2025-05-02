@@ -13,7 +13,7 @@ class ordonnanceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class ordonnanceRequest extends FormRequest
     public function rules(): array
     {
         return [
-           'num_ord' => 'required|string|max:25',
+           'num_ord' => 'required|max:25',
         ];
     } 
     public function failedValidation(Validator $validator){

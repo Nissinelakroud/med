@@ -17,14 +17,14 @@ class ConsultationRequest extends FormRequest
     {
         return [
             'motif' => 'string',
-            'temperature' => 'nullable|numeric|min:30|max:45',
+            'temperature' => 'nullable|numeric|max:45',
             'symptomes' => 'nullable|string|max:1000',
-            'tension_arterielle_systolique' => 'nullable|numeric|min:50|max:250',
-            'tension_arterielle_diastolique' => 'nullable|numeric|min:30|max:150',
-            'saturation_oxygene' => 'nullable|numeric|min:50|max:100',
-            'frequence_cardiaque' => 'nullable|numeric|min:30|max:200',
-            'poids' => 'nullable|numeric|min:1|max:300',
-            'taille' => 'nullable|numeric|min:30|max:250',
+            'tension_arterielle_systolique' => 'nullable|numeric|max:250',
+            'tension_arterielle_diastolique' => 'nullable|numeric|max:150',
+            'saturation_oxygene' => 'nullable|numeric|max:100',
+            'frequence_cardiaque' => 'nullable|numeric|max:200',
+            'poids' => 'nullable|numeric|max:300',
+            'taille' => 'nullable|numeric|max:250',
             'diagnostic_principal' => 'nullable|string|max:1000',
             'traitement' => 'nullable|string|max:1000',
            

@@ -2,101 +2,117 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\visite;
+use App\Models\Visite;
 use Illuminate\Http\Request;
 use Exception;
 
 class VisiteController extends Controller
 {
-    // Liste de toutes les visites
     public function index()
     {
-        $visites = visite::all();
+        try {
+            $visites = Visite::all();
 
-        return response()->json([
-            'status_code' => 200,
-            'data' => $visites
-        ]);
+            return response()->json([
+                'status_code' => 200,
+                'status_message' => "Liste des visites",
+                'data' => $visites
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
-    // Ajouter une visite
     public function store(Request $request)
     {
-        $request->validate([
-            'id_visite' => 'required|integer|unique:visite,id_visite',
-            'date_visite' => 'required|date',
-            'id_patient' => 'required|exists:patients,id',
-            'id_utilisateur' => 'required|exists:utilisateurs,id',
-            'num_rdv' => 'required|exists:rendezvous,num_rdv',
-        ]);
-
         try {
-            $visite = new visite();
-            $visite->id_visite = $request->id_visite;
+            $request->validate([
+                'date_visite' => 'required|date',
+                'num_rdv' => 'required|exists:rdv,num_rdv',
+                'id_utilisateur' => 'required|exists:utilisateurs,id_utilisateur',
+                'id_patient' => 'required|exists:patients,id_patient',
+            ]);
+
+            $visite = new Visite();
             $visite->date_visite = $request->date_visite;
-            $visite->id_patient = $request->id_patient; // FK vers patients
-            $visite->id_utilisateur = $request->id_utilisateur; // FK vers utilisateurs
-            $visite->num_rdv = $request->num_rdv; // FK vers rendezvous
+            $visite->num_rdv = $request->num_rdv;
+            $visite->id_utilisateur = $request->id_utilisateur;
+            $visite->id_patient = $request->id_patient;
+
             $visite->save();
 
             return response()->json([
                 'status_code' => 201,
-                'status_message' => 'La visite a été ajoutée',
+                'status_message' => "Visite créée avec succès",
                 'data' => $visite
             ]);
-        } catch (Exception $exception) {
+        } catch (Exception $e) {
             return response()->json([
                 'status_code' => 500,
-                'error' => $exception->getMessage()
+                'error' => $e->getMessage()
             ]);
         }
     }
 
-    // Mettre à jour une visite
-    public function update(Request $request, visite $visite)
+    public function show($id)
     {
-        $request->validate([
-            'date_visite' => 'required|date',
-            'id_patient' => 'required|exists:patients,id',
-            'id_utilisateur' => 'required|exists:utilisateurs,id',
-            'num_rdv' => 'required|exists:rendezvous,num_rdv',
-        ]);
+        $visite = Visite::find($id);
 
+        if (!$visite) {
+            return response()->json(['message' => 'Visite non trouvée'], 404);
+        }
+
+        return response()->json($visite);
+    }
+
+    public function update(Request $request, $id)
+    {
         try {
+            $request->validate([
+                'date_visite' => 'required|date',
+                'num_rdv' => 'required|exists:rdv,num_rdv',
+                'id_utilisateur' => 'required|exists:utilisateurs,id_utilisateur',
+                'id_patient' => 'required|exists:patients,id_patient',
+            ]);
+
+            $visite = Visite::findOrFail($id);
             $visite->date_visite = $request->date_visite;
-            $visite->id_patient = $request->id_patient;
-            $visite->id_utilisateur = $request->id_utilisateur;
             $visite->num_rdv = $request->num_rdv;
+            $visite->id_utilisateur = $request->id_utilisateur;
+            $visite->id_patient = $request->id_patient;
+
             $visite->save();
 
             return response()->json([
                 'status_code' => 200,
-                'status_message' => 'La visite a été modifiée',
+                'status_message' => "Visite modifiée avec succès",
                 'data' => $visite
             ]);
-        } catch (Exception $exception) {
+        } catch (Exception $e) {
             return response()->json([
                 'status_code' => 500,
-                'error' => $exception->getMessage()
+                'error' => $e->getMessage()
             ]);
         }
     }
 
-    
-    public function destroy(visite $visite)
+    public function delete(Visite $visite)
     {
         try {
             $visite->delete();
 
             return response()->json([
                 'status_code' => 200,
-                'status_message' => 'La visite a été supprimée',
+                'status_message' => "Visite supprimée avec succès",
                 'data' => $visite
             ]);
-        } catch (Exception $exception) {
+        } catch (Exception $e) {
             return response()->json([
                 'status_code' => 500,
-                'error' => $exception->getMessage()
+                'error' => $e->getMessage()
             ]);
         }
     }

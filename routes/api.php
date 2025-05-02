@@ -4,13 +4,16 @@ use App\Http\Controllers\UtilisateurController;
 use App\Http\Controllers\VisiteController;
 use App\Http\Controllers\MedicamentController;
 use App\Http\Controllers\AssociationController;
-use App\Http\Controllers\RendezvousController;
+use App\Http\Controllers\RendezvousController; 
+use App\Http\Controllers\certificatController ;
 use App\Http\Controllers\Compte_RenduController;
-use App\Http\Controllers\ConsultationController;
+use App\Http\Controllers\ConsultationController; 
+use App\Http\Controllers\ordonnanceController;
 use App\Http\Controllers\ContientController;  
 use App\Http\Controllers\RoleController; 
 use Illuminate\Support\Facades\Route;   
-use App\Http\Controllers\patientController; 
+use App\Http\Controllers\patientController;  
+
 
 // Utilisateur
 Route::get('utilisateur', [UtilisateurController::class, 'index']);
@@ -40,7 +43,7 @@ Route::delete('association/{association}', [AssociationController::class, 'delet
 Route::get('rendezvous', [RendezvousController::class, 'index']);
 Route::post('rendezvous/create', [RendezvousController::class, 'store']);
 Route::put('rendezvous/edit/{rendezvous}', [RendezvousController::class, 'update']);
-Route::delete('rendezvous/{rendezvous}', [RendezvousController::class, 'delete']);
+Route::delete('rendezvous/{rendezvous}', [RendezvousController::class, 'destroy']);
 
 // Compte-rendu
 Route::get('compte_rendu', [Compte_RenduController::class, 'index']);
@@ -54,9 +57,15 @@ Route::post('consultation/create', [ConsultationController::class, 'store']);
 Route::put('consultation/edit/{consultation}', [ConsultationController::class, 'update']);
 Route::delete('consultation/{consultation}', [ConsultationController::class, 'delete']);
 
+Route::get('ordonnance', [ordonnanceController::class, 'index']);
+Route::post('ordonnance/create', [ordonnanceController::class, 'store']);
+Route::put('ordonnance/edit/{ordonnance}', [ordonnanceController::class, 'update']);
+Route::delete('ordonnance/{ordonnance}', [ordonnanceController::class, 'delete']);
 
-
-
+Route::get('certificat', [certificatController::class, 'index']);
+Route::post('certificat/create', [certificatController::class, 'store']);
+Route::put('certificat/edit/{certificat}', [certificatController::class, 'update']);
+Route::delete('certificat/{certificat}', [certificatController::class, 'delete']);
 
 
 // Contient (ex : ordonnance contient médicament)

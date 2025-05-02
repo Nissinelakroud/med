@@ -16,9 +16,9 @@ class CertificatRequest extends FormRequest
     public function rules()
     {
         return [
-            'num_certif' => 'required|string|max:50|unique:certificats,num_certif,' . $this->certificat,
+            'num_certif' => 'unique:certificats,num_certif,' . $this->num_certif . ',num_certif', // Corrected
             'contenu' => 'required|string|max:2000',
-            'id_visite' => 'required|exists:visites,id',
+            'id_visite' => 'required|exists:visites,id_visite',
         ];
     }
 

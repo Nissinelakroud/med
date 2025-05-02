@@ -11,11 +11,11 @@ class CreateCertificatsTable extends Migration
      */
     public function up(): void
     { 
-        Schema::disableForeignKeyConstraints();
+        
         Schema::create('certificats', function (Blueprint $table) {
-            $table->bigIncrements('id_certificat');
-            $table->string('num_certif')->unique(); // Numéro de certificat, supposé unique
-            $table->text('contenu'); // Contenu du certificat
+            $table->bigIncrements('num_certif');
+            
+            $table->text('contenu'); 
             
             $table->timestamps();
             $table->unsignedBigInteger('id_visite');

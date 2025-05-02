@@ -1,15 +1,12 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Rendezvous;
-use App\Http\Requests\RendezvousRequest;
-use Exception;
 use Illuminate\Http\Request;
+use Exception;
 
 class RendezvousController extends Controller
 {
-    // Liste de tous les rendez-vous
     public function index()
     {
         $rendezvous = Rendezvous::all();
@@ -21,21 +18,30 @@ class RendezvousController extends Controller
     }
 
     // Ajouter un rendez-vous
-    public function store(RendezvousRequest $request)
+    public function store(Request $request)
     {
         try {
-            $rendezvous = new Rendezvous();
-            $rendezvous->num_rdv = $request->num_rdv;
-            $rendezvous->date_rdv = $request->date_rdv;
-            $rendezvous->motif = $request->motif;
-            $rendezvous->id = $request->id;
-            $rendezvous->save();
+            // Validation des données de la requête
+            $validatedData = $request->validate([
+                'date_rdv' => 'required|date',
+                'motif' => 'required|string|max:255',
+                'id_patient' => 'required|exists:patients,id_patient',
+            ]);
+
+            // Créer un nouveau rendez-vous avec les données validées
+            $rdv = new Rendezvous();
+            $rdv->date_rdv = $validatedData['date_rdv'];
+            $rdv->motif = $validatedData['motif'];
+            $rdv->id_patient = $validatedData['id_patient'];
+
+            // Enregistrer dans la base de données
+            $rdv->save();
 
             return response()->json([
                 'status_code' => 201,
-                'status_message' => "Le rendez-vous a été ajouté",
-                'data' => $rendezvous
-            ]);
+                'status_message' => 'Rendez-vous créé avec succès',
+                'data' => $rdv
+            ], 201);
         } catch (Exception $exception) {
             return response()->json([
                 'status_code' => 500,
@@ -54,12 +60,25 @@ class RendezvousController extends Controller
     }
 
     // Mettre à jour un rendez-vous
-    public function update(RendezvousRequest $request, Rendezvous $rendezvous)
+    public function update(Request $request, $id)
     {
         try {
-            $rendezvous->date_rdv = $request->date_rdv;
-            $rendezvous->motif = $request->motif;
-            $rendezvous->id_patient = $request->id_patient;
+            // Trouver le rendez-vous par son ID
+            $rendezvous = Rendezvous::findOrFail($id);
+
+            // Validation des données
+            $validatedData = $request->validate([
+                'date_rdv' => 'required|date',
+                'motif' => 'required|string|max:255',
+                'id_patient' => 'required|exists:patients,id_patient',
+            ]);
+
+            // Mettre à jour les champs du rendez-vous
+            $rendezvous->date_rdv = $validatedData['date_rdv'];
+            $rendezvous->motif = $validatedData['motif'];
+            $rendezvous->id_patient = $validatedData['id_patient'];
+
+            // Sauvegarder les modifications
             $rendezvous->save();
 
             return response()->json([
@@ -76,9 +95,13 @@ class RendezvousController extends Controller
     }
 
     // Supprimer un rendez-vous
-    public function destroy(Rendezvous $rendezvous)
+    public function destroy($id)
     {
         try {
+            // Trouver le rendez-vous par son ID
+            $rendezvous = Rendezvous::findOrFail($id);
+
+            // Supprimer le rendez-vous
             $rendezvous->delete();
 
             return response()->json([

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Rendezvous extends Model
 {
     protected $primaryKey = 'num_rdv'; // si tu utilises num_rdv comme clé primaire
+    
     protected $table = 'rdv';
     protected $fillable = [
         

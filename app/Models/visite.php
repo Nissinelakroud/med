@@ -9,7 +9,7 @@ class Visite extends Model
     protected $primaryKey = 'id_visite'; // si tu utilises id_visite comme PK
 
     protected $fillable = [
-        'id_visite',
+        
         'date_visite',
         'id_patient',
         'id_utilisateur',

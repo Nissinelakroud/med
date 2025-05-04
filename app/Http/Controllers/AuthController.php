@@ -5,14 +5,14 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash; // Ajout de Hash pour vérifier et hacher les mots de passe
+use Illuminate\Support\Facades\Hash; 
 use App\Models\User;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        // Validation des données d'entrée
+        
         $validator = Validator::make($request->all(), [
             'id' => 'required|string',
             'name' => 'required|string',
@@ -24,7 +24,6 @@ class AuthController extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-       
         $hashedPassword = Hash::make($request->password);
 
        
@@ -35,7 +34,7 @@ class AuthController extends Controller
             'password' => $hashedPassword, 
         ]);
 
-        // Création du token JWT pour l'utilisateur
+        
         $token = JWTAuth::fromUser($user);
 
         return response()->json([
@@ -56,7 +55,6 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-       
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {

@@ -12,29 +12,28 @@ class RendezvousController extends Controller
         $rendezvous = Rendezvous::all();
 
         return response()->json([
-            'status_code' => 200,
+            'status_code' => 200, 
             'data' => $rendezvous
         ]);
-    }
+    } 
 
-    // Ajouter un rendez-vous
     public function store(Request $request)
     {
         try {
-            // Validation des données de la requête
+           
             $validatedData = $request->validate([
                 'date_rdv' => 'required|date',
                 'motif' => 'required|string|max:255',
                 'id_patient' => 'required|exists:patients,id_patient',
             ]);
 
-            // Créer un nouveau rendez-vous avec les données validées
+           
             $rdv = new Rendezvous();
             $rdv->date_rdv = $validatedData['date_rdv'];
             $rdv->motif = $validatedData['motif'];
             $rdv->id_patient = $validatedData['id_patient'];
 
-            // Enregistrer dans la base de données
+            
             $rdv->save();
 
             return response()->json([

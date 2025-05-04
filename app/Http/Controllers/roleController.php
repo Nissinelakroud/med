@@ -10,19 +10,19 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
-    // Liste des rôles (exemple)
+    
     public function index(){
         return 'Liste des rôles';
     }
 
-    // Ajouter un rôle
+   
     public function store(Request $request){
         try{
             $role = new Role();
-            $role->id_role = $request->id_role;  // Assigner l'id_role si nécessaire
-            $role->role = $request->role;  // Assigner le rôle
+            $role->id_role = $request->id_role;  
+            $role->role = $request->role; 
             
-            $role->save();  // Sauvegarder le rôle dans la base de données
+            $role->save();  
 
             return response()->json([
                 'status_code' => 201,
@@ -37,11 +37,11 @@ class RoleController extends Controller
         }
     }
 
-    // Mettre à jour un rôle
+    
     public function update(Request $request, Role $role){
         try{
-            $role->role = $request->role;  // Mettre à jour le champ role
-            $role->save();  // Sauvegarder les modifications
+            $role->role = $request->role;  
+            $role->save();  
 
             return response()->json([
                 'status_code' => 200,
@@ -56,15 +56,14 @@ class RoleController extends Controller
         }
     }
 
-    // Supprimer un rôle
     public function delete(Role $role){
         try{
-            $role->delete();  // Supprimer le rôle
+            $role->delete();  
 
             return response()->json([
                 'status_code' => 200,
                 'status_message' => "Le rôle a été supprimé",
-                'data' => $role
+                'data' => $role 
             ]);
         } catch (Exception $exception) {
             return response()->json([

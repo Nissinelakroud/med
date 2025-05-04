@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Utilisateur;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Exception;
-
+use Exception; 
 class UtilisateurController extends Controller
 {
     public function index()

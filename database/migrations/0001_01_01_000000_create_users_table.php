@@ -6,25 +6,26 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
+            $table->bigIncrements('id_utilisateur'); // clé primaire personnalisée
+            $table->string('nom');       // nom (au lieu de name)
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('mot_de_passe'); // mot_de_passe au lieu de password
+
+            // Ajout de la colonne role
+            $table->enum('role', ['admin', 'medecin', 'secretaire'])->default('medecin');
+
             $table->rememberToken();
             $table->timestamps();
         });
 
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email')->primary();
+        Schema::create('password_resets', function (Blueprint $table) {
+            $table->string('email')->index();
             $table->string('token');
-            $table->timestamp('created_at')->nullable();
+            $table->timestamp('created_at');
         });
 
         Schema::create('sessions', function (Blueprint $table) {
@@ -37,13 +38,10 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('password_resets');
+        Schema::dropIfExists('users');
     }
 };

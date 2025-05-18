@@ -16,7 +16,7 @@ class MedicamentRequest extends FormRequest
     public function rules()
     {
         return [
-            'num_med' => 'required|string|max:50|unique:medicaments,num_med,' . $this->medicament,
+            'num_med' => 'string|max:50|unique:medicaments,num_med,' . $this->medicament,
             'nom_med' => 'required|string|max:255',
             'therapeutique' => 'nullable|string|max:255',
             'unite' => 'nullable|string|max:50',

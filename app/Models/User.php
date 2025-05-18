@@ -1,38 +1,25 @@
 <?php
-
 namespace App\Models;
 
-use Tymon\JWTAuth\Contracts\JWTSubject;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
-    protected $fillable = [
-        'id',
-        'name',
-        'email',
-        'password',
-    ];
+    protected $table = 'users'; // Nom de la table si différent
+    protected $primaryKey = 'id_utilisateur';
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $fillable = ['nom', 'email', 'mot_de_passe'];
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    protected $hidden = ['mot_de_passe', 'remember_token'];
 
-    /**
-     * Pour indiquer à Laravel quel champ utiliser comme mot de passe
-     */
     public function getAuthPassword()
     {
-        return $this->password;
+        return $this->mot_de_passe; // Important pour que Laravel utilise le bon champ
     }
 
     public function getJWTIdentifier()
@@ -44,4 +31,6 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+   
 }

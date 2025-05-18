@@ -95,6 +95,7 @@ class ConsultationController extends Controller
 }
 
 
+
     public function delete($id)
     {
         try {

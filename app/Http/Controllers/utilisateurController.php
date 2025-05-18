@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Utilisateur;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Exception; 
+use Exception;
+
 class UtilisateurController extends Controller
 {
     public function index()
     {
         try {
-            $utilisateurs = Utilisateur::with('role')->get();
+            // Supprimé la relation 'role'
+            $utilisateurs = User::all();
 
             return response()->json([
                 'status_code' => 200,
@@ -29,12 +31,11 @@ class UtilisateurController extends Controller
     public function store(Request $request)
     {
         try {
-            $utilisateur = new Utilisateur();
+            $utilisateur = new User();
             $utilisateur->nom = $request->nom;
             $utilisateur->email = $request->email;
             $utilisateur->mot_de_passe = Hash::make($request->mot_de_passe);
-            $utilisateur->id_role = $request->id_role;
-
+$utilisateur->role = $request->role ?? 'medecin'; // valeur par défaut 
             $utilisateur->save();
 
             return response()->json([
@@ -49,29 +50,29 @@ class UtilisateurController extends Controller
             ]);
         }
     }
+
     public function show($id)
     {
-        $utilisateur = Utilisateur::find($id);
-    
+        $utilisateur = User::find($id);
+
         if (!$utilisateur) {
             return response()->json(['message' => 'Utilisateur non trouvé'], 404);
         }
-    
+
         return response()->json($utilisateur);
     }
-    
+
     public function update(Request $request, $id)
     {
         try {
-            $utilisateur = Utilisateur::findOrFail($id);
+            $utilisateur = User::findOrFail($id);
             $utilisateur->nom = $request->nom;
             $utilisateur->email = $request->email;
-
+ $utilisateur->role = $request->role;
             if ($request->mot_de_passe) {
                 $utilisateur->mot_de_passe = Hash::make($request->mot_de_passe);
             }
 
-            $utilisateur->id_role = $request->id_role;
             $utilisateur->save();
 
             return response()->json([
@@ -87,7 +88,7 @@ class UtilisateurController extends Controller
         }
     }
 
-    public function delete(Utilisateur $utilisateur)
+    public function delete(User $utilisateur)
     {
         try {
             $utilisateur->delete();

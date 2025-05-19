@@ -30,7 +30,7 @@ Route::get('/test-api', function () {
 });
 
 // ✅ Routes protégées (NE FONCTIONNENT QUE SI TOKEN EST PRÉSENT)
-Route::middleware(['jwt.auth'])->group(function () {
+//Route::middleware(['jwt.auth'])->group(function () {
     Route::get('utilisateur', [UtilisateurController::class, 'index']);
     Route::post('utilisateur/create', [UtilisateurController::class, 'store']);
     Route::put('utilisateur/edit/{utilisateur}', [UtilisateurController::class, 'update']);
@@ -86,4 +86,4 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::post('patient/create', [PatientController::class, 'store']);
     Route::put('patient/edit/{patient}', [PatientController::class, 'update']);
     Route::delete('patient/{patient}', [PatientController::class, 'delete']);
-});
+//});

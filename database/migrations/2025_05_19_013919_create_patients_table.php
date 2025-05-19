@@ -15,12 +15,13 @@ class CreatePatientsTable extends Migration
             $table->string('nom_patient');
             $table->string('prenom_patient');
             $table->string('CIN')->unique();
-            $table->string('email');
-            $table->date('date_naissance');
-            $table->string('telephone');
-            $table->string('assurance');
-            $table->string('adresse');
-            $table->float('poids');
+            
+            $table->string('email')->nullable();
+            $table->date('date_naissance')->nullable();
+            $table->string('telephone')->nullable();
+            $table->string('assurance')->nullable();
+            $table->string('adresse')->nullable();
+            $table->float('poids')->nullable();
             $table->timestamps();
         });
     }

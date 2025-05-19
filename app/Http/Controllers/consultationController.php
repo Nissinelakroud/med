@@ -45,7 +45,7 @@ class ConsultationController extends Controller
             $consultation->taille = $request->taille;
             $consultation->diagnostic_principal = $request->diagnostic_principal;
             $consultation->traitement = $request->traitement;
-            $consultation->id_visite = $request->id_visite; 
+            $consultation->id_patient = $request->id_patient; 
             $consultation->save();
 
             return response()->json([

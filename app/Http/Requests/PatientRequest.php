@@ -19,7 +19,7 @@ class PatientRequest extends FormRequest
             'prenom_patient' => 'required|string|max:255',
             'CIN' => 'required|string|max:20|unique:patients,CIN,' ,
             'email' => 'nullable|email',
-            'date_naissance' => 'required|date',
+            'date_naissance' => 'date',
             'telephone' => 'nullable|string|max:20',
             'assurance' => 'nullable|string|max:255',
             'adresse' => 'nullable|string|max:255',

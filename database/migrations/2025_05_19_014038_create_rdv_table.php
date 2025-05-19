@@ -9,7 +9,8 @@ return new class extends Migration {
     { 
         Schema::create('rdv', function (Blueprint $table) {
             
-            $table->bigIncrements('num_rdv');
+            $table->bigIncrements('num_rdv'); 
+           
             $table->date('date_rdv');
             $table->string('motif');
             $table->unsignedBigInteger('id_patient');

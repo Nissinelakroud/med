@@ -27,8 +27,9 @@ class CreateConsultationsTable extends Migration
             $table->decimal('taille', 5, 2); 
             $table->text('diagnostic_principal'); 
             $table->text('traitement'); 
-            $table->unsignedBigInteger('id_visite');
-            $table->foreign('id_visite')->references('id_visite')->on('visites')->onDelete('cascade');
+
+           $table->unsignedBigInteger('id_patient');
+            $table->foreign('id_patient')->references('id_patient')->on('patients')->onDelete('cascade'); 
            
         });
     }

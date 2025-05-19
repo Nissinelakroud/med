@@ -3,14 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Patient;
 
 class Rendezvous extends Model
 {
-    protected $primaryKey = 'num_rdv'; // si tu utilises num_rdv comme clé primaire
-    
+    protected $primaryKey = 'num_rdv'; // primary key is num_rdv
     protected $table = 'rdv';
     protected $fillable = [
-        
         'date_rdv',
         'motif',
         'id_patient',
@@ -20,6 +19,6 @@ class Rendezvous extends Model
 
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'id_patient');
+        return $this->belongsTo(Patient::class, 'id_patient', 'id_patient');
     }
 }

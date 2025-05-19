@@ -16,7 +16,7 @@ class ConsultationRequest extends FormRequest
     public function rules()
     {
         return [
-            'motif' => 'string| nullable ',
+            'motif' => 'string|nullable ',
             'temperature' => 'nullable|numeric|max:45',
             'symptomes' => 'nullable|string|max:1000',
             'tension_arterielle_systolique' => 'nullable|numeric|max:250',
@@ -27,7 +27,7 @@ class ConsultationRequest extends FormRequest
             'taille' => 'nullable|numeric|max:250',
             'diagnostic_principal' => 'nullable|string|max:1000',
             'traitement' => 'nullable|string|max:1000',
-            'id_visite' => 'required|exists:visites,id_visite',
+            'id_patient' => 'exists:patients,id_patient',
         ];
     }
 

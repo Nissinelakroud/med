@@ -9,22 +9,19 @@ use Exception;
 class PatientController extends Controller
 {
     public function index()
-    {
-        try {
-            $patients = Patient::all();
+{
+    try {
+        $patients = Patient::with('consultations')->get();
 
-            return response()->json([
-                'status_code' => 200,
-                'status_message' => "Liste des patients",
-                'data' => $patients
-            ]);
-        } catch (Exception $e) {
-            return response()->json([
-                'status_code' => 500,
-                'error' => $e->getMessage()
-            ]);
-        }
+        return response()->json($patients);
+    } catch (Exception $e) {
+        return response()->json([
+            'status_code' => 500,
+            'error' => $e->getMessage()
+        ]);
     }
+}
+
 
     public function store(Request $request)
     {
@@ -42,11 +39,7 @@ class PatientController extends Controller
 
             $patient->save();
 
-            return response()->json([
-                'status_code' => 201,
-                'status_message' => "Patient créé avec succès",
-                'data' => $patient
-            ]);
+            return response()->json($patient, 201);
         } catch (Exception $e) {
             return response()->json([
                 'status_code' => 500,

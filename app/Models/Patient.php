@@ -7,17 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class Patient extends Model
 {
+    use HasFactory;
+
     protected $primaryKey = 'id_patient';
     protected $table = 'patients';
-    protected $fillable =[
-        
+
+    protected $fillable = [
         'nom_patient',
         'prenom_patient',
         'CIN', 
         'email', 
         'date_naissance', 
         'telephone', 
-         'assurance'
+        'assurance',
+        'adresse',
+        'poids'
     ];
-   
-} 
+
+    public function consultations()
+    {
+        return $this->hasMany(Consultation::class, 'id_patient', 'id_patient');
+    }
+}
